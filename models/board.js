@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const postSchema = new Schema ({
+const boardSchema = new Schema ({
 
 }, {timestamps: true});
 
-module.exports = mongoose.model('Post', postSchema);
+module.exports = mongoose.model('Board', boardSchema);
