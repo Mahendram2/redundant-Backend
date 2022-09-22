@@ -2,13 +2,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/user');
+const Post = require('./models/post')
+
 
 /*  Initalalize Express */
 const app = express();
 
+
 /* dotenv Config */
 require('dotenv').config();
 const {PORT = 4000, DATABASE_URL} = process.env;
+
 
 /* MongoDB Connection */
 mongoose.connect(DATABASE_URL);
@@ -19,14 +23,8 @@ mongoose.connection
 .on('error', () => console.log('Problem with MongoDB:' + error.message))
 
 
-// const userSchema = new mongoose.Schema({
-//         username: { type: String,},
-//         bio: String,
-//     }, { timestamps: true });
-
-
-// const User = mongoose.model('User', userSchema)
 // /* Mount Middleware */
+app.use(express.json());
 
 
 /* Routes */
@@ -34,7 +32,8 @@ app.get('/', (req, res) => {
     res.send('Welcome');
 });
 
-// Index
+
+// Index User
 app.get('/api/user', async (req, res) => {
     try {
         res.status(200).json(await User.find({}));
@@ -46,7 +45,21 @@ app.get('/api/user', async (req, res) => {
     }
 });
 
+// Index Post
+app.get('/api/post', async (req, res) => {
+    try {
+        res.status(200).json(await Post.find({}));
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({
+            'error': 'bad request'
+        });
+    }
+});
+
+
 // Create
+// User API
 app.post('/api/user',  async (req, res) =>{
     try {
         res.status(201).json(await User.create(req.body));
@@ -55,6 +68,18 @@ app.post('/api/user',  async (req, res) =>{
         res.status(400).json({'error': 'bad request'});
     }
 });
+
+
+// Post API
+app.post('/api/post',  async (req, res) =>{
+    try {
+        res.status(201).json(await Post.create(req.body));
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({'error': 'bad request'});
+    }
+});
+
 
 /* Listner */
 app.listen(PORT, () =>{
