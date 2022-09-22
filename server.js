@@ -18,7 +18,15 @@ mongoose.connection
 .on('disconnected', () => console.log('Disonnected to MongoDB'))
 .on('error', () => console.log('Problem with MongoDB:' + error.message))
 
-/* Mount Middleware */
+
+// const userSchema = new mongoose.Schema({
+//         username: { type: String,},
+//         bio: String,
+//     }, { timestamps: true });
+
+
+// const User = mongoose.model('User', userSchema)
+// /* Mount Middleware */
 
 
 /* Routes */
@@ -26,8 +34,20 @@ app.get('/', (req, res) => {
     res.send('Welcome');
 });
 
+// Index
+app.get('/api/user', async (req, res) => {
+    try {
+        res.status(200).json(await User.find({}));
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({
+            'error': 'bad request'
+        });
+    }
+});
+
 // Create
-app.post('/api/user', async (req, res) =>{
+app.post('/api/user',  async (req, res) =>{
     try {
         res.status(201).json(await User.create(req.body));
     } catch (error) {
