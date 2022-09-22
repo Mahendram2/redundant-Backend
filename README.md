@@ -1,10 +1,13 @@
 # Project 3 (Reddit Clone) Backend
+
 # Team Member
+=======
+
+## Team Member
 - Mahendra Mishra - Backend, Github Managar
 - Ian Brown - Frontend, SCSS
 - Seth Miller - Frontend, Github Managar
 - Le'Vente Larry - Backend, Database 
-
 
 
 ## Technologies Used
@@ -19,6 +22,6 @@
 
 ## Getting Started
 
-[Click here]() to see the deployed app!
+[Click here](https://github.com/Mahendram2/Project-3-Backend#screenshots) to see the deployed app!
 
 ## Future Enhancements
