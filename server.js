@@ -19,7 +19,7 @@ mongoose.connection
 .on('error', () => console.log('Problem with MongoDB:' + error.message))
 
 /* Mount Middleware */
-
+app.use(express.json());
 
 /* Routes */
 app.get('/', (req, res) => {
@@ -35,6 +35,7 @@ app.post('/api/user', async (req, res) =>{
         res.status(400).json({'error': 'bad request'});
     }
 });
+
 
 /* Listner */
 app.listen(PORT, () =>{
