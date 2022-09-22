@@ -21,13 +21,26 @@ mongoose.connection
 /* Mount Middleware */
 app.use(express.json());
 
+
 /* Routes */
 app.get('/', (req, res) => {
     res.send('Welcome');
 });
 
+// Index
+app.get('/api/user', async (req, res) => {
+    try {
+        res.status(200).json(await User.find({}));
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({
+            'error': 'bad request'
+        });
+    }
+});
+
 // Create
-app.post('/api/user', async (req, res) =>{
+app.post('/api/user',  async (req, res) =>{
     try {
         res.status(201).json(await User.create(req.body));
     } catch (error) {
