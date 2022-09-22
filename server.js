@@ -18,15 +18,8 @@ mongoose.connection
 .on('disconnected', () => console.log('Disonnected to MongoDB'))
 .on('error', () => console.log('Problem with MongoDB:' + error.message))
 
-
-// const userSchema = new mongoose.Schema({
-//         username: { type: String,},
-//         bio: String,
-//     }, { timestamps: true });
-
-
-// const User = mongoose.model('User', userSchema)
-// /* Mount Middleware */
+/* Mount Middleware */
+app.use(express.json());
 
 
 /* Routes */
@@ -55,6 +48,7 @@ app.post('/api/user',  async (req, res) =>{
         res.status(400).json({'error': 'bad request'});
     }
 });
+
 
 /* Listner */
 app.listen(PORT, () =>{
