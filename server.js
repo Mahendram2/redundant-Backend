@@ -1,6 +1,7 @@
 /* Dependencies */
 const express = require('express');
 const mongoose = require('mongoose');
+const User = require('./models/user');
 
 /*  Initalalize Express */
 const app = express();
@@ -23,6 +24,16 @@ mongoose.connection
 /* Routes */
 app.get('/', (req, res) => {
     res.send('Welcome');
+});
+
+// Create
+app.post('/api/user', async (req, res) =>{
+    try {
+        res.status(201).json(await User.create(req.body));
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({'error': 'bad request'});
+    }
 });
 
 /* Listner */
