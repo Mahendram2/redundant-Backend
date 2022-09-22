@@ -1,6 +1,6 @@
 # Project 3 (Reddit Clone) Backend
 
-#Team Member
+## Team Member
 - Mahendra Mishra - Backend, Github Managar
 - Ian Brown - Frontend, SCSS
 - Seth Miller - Frontend, Github Managar
