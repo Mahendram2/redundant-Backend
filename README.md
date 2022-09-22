@@ -18,6 +18,6 @@
 
 ## Getting Started
 
-[Click here](https://github.com/Mahendram2/Project-3-Backend) to see the deployed app!
+[Click here](https://github.com/Mahendram2/Project-3-Backend#screenshots) to see the deployed app!
 
 ## Future Enhancements
