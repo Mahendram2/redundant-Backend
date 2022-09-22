@@ -45,19 +45,6 @@ app.get('/api/user', async (req, res) => {
     }
 });
 
-// Index Post
-app.get('/api/post', async (req, res) => {
-    try {
-        res.status(200).json(await Post.find({}));
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({
-            'error': 'bad request'
-        });
-    }
-});
-
-
 // Create
 // User API
 app.post('/api/user',  async (req, res) =>{
@@ -68,18 +55,6 @@ app.post('/api/user',  async (req, res) =>{
         res.status(400).json({'error': 'bad request'});
     }
 });
-
-
-// Post API
-app.post('/api/post',  async (req, res) =>{
-    try {
-        res.status(201).json(await Post.create(req.body));
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({'error': 'bad request'});
-    }
-});
-
 
 /* Listner */
 app.listen(PORT, () =>{
