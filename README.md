@@ -1,6 +1,11 @@
 # Project 3 (Reddit Clone) Backend
-An app where coworkers can communicate with eachother with annoucement
-- Add, Edit, Delete, and Read annoucements.
+# Team Member
+- Mahendra Mishra - Backend, Github Managar
+- Ian Brown - Frontend, SCSS
+- Seth Miller - Frontend, Github Managar
+- Le'Vente Larry - Backend, Database 
+
+
 
 ## Technologies Used
 - JavaScript
