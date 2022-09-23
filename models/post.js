@@ -1,6 +1,7 @@
 //DEPENDENCIES
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
 //REPLY
 const replieSchema = new Schema({
     body: {type: String},
@@ -13,3 +14,15 @@ const postSchema = new Schema ({
 }, {timestamps: true});
 
 module.exports = mongoose.model('Post', postSchema);
+
+
+const postSchema = new Schema(
+  {
+    title: String,
+    createdBy: String,
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model('Post', postSchema);
+
