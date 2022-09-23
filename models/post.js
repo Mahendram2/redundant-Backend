@@ -10,6 +10,7 @@ const replieSchema = new Schema({
 const postSchema = new Schema(
   {
     title: String,
+    image: String,
     createdBy: String,
     replies: [replieSchema]
   },
