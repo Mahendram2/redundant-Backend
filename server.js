@@ -74,6 +74,34 @@ app.post('/api/post', async (req, res) => {
   }
 });
 
+
+// Delete 
+// User
+app.delete('/api/user/delete/:id', async (req,res) => {
+    try {
+        res.status(200).json(await User.findByIdAndDelete(
+            req.params.id
+        ))
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({'error': 'bad request'}); 
+    }
+});
+
+// Delete 
+// Post
+app.delete('/api/post/delete/:id', async (req,res) => {
+    try {
+        res.status(200).json(await Post.findByIdAndDelete(
+            req.params.id
+        ))
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({'error': 'bad request'}); 
+    }
+});
+
+
 /* Listner */
 app.listen(PORT, () => {
   console.log('Express is running on Port:' + PORT);

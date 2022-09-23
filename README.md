@@ -1,5 +1,5 @@
 # Project 3 (Reddit Clone) Backend
-
+- In the Backend we are hosting multiple api connected to mongoDB, that can called by frontend of our app when need. 
 # Team Member
 =======
 
