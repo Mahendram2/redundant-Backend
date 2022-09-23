@@ -14,15 +14,13 @@ const postSchema = new Schema ({
 }, {timestamps: true});
 
 module.exports = mongoose.model('Post', postSchema);
-
-
 const postSchema = new Schema(
   {
     title: String,
     createdBy: String,
+    replies: [replieSchema]
   },
   { timestamps: true }
 );
 
 module.exports = mongoose.model('Post', postSchema);
-
