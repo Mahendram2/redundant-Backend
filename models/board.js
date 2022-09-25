@@ -7,6 +7,8 @@ const replieSchema = new Schema({
 }, {timestamps: true}); //APPROX..
 //CONSTRUCTOR
 const boardSchema = new Schema ({
+    createPost: String,
+    image: String,
     replies: [replieSchema] //EMBEDED
 }, {timestamps: true});
 
