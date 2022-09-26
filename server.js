@@ -90,6 +90,17 @@ app.post('/api/post', async (req, res) => {
 ///////////////////////////////
 // Update
 ////////////////////////////////
+app.delete('/api/user/delete/:id', async (req,res) => {
+  try {
+      res.status(200).json(await User.findByIdAndDelete(
+          req.params.id
+      ))
+  } catch (error) {
+      console.log(error);
+      res.status(400).json({'error': 'bad request'}); 
+  }
+});
+
 
 ///////////////////////////////
 // Delete 
