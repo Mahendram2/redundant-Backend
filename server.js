@@ -1,4 +1,6 @@
-/* Dependencies */
+///////////////////////////////
+// Dependencies
+////////////////////////////////
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -12,7 +14,9 @@ const app = express();
 require('dotenv').config();
 const { PORT = 4000, DATABASE_URL } = process.env;
 
+///////////////////////////////
 /* MongoDB Connection */
+////////////////////////////////
 mongoose.connect(DATABASE_URL);
 
 mongoose.connection
@@ -20,15 +24,22 @@ mongoose.connection
   .on('disconnected', () => console.log('Disonnected to MongoDB'))
   .on('error', () => console.log('Problem with MongoDB:' + error.message));
 
-// /* Mount Middleware */
+///////////////////////////////
+// Mount Middleware
+////////////////////////////////
 app.use(express.json());
 app.use(cors());
 
-/* Routes */
+///////////////////////////////
+// ROUTES
+////////////////////////////////
 app.get('/', (req, res) => {
   res.send('Welcome');
 });
 
+///////////////////////////////
+// Index
+////////////////////////////////
 // Index User
 app.get('/api/user', async (req, res) => {
   try {
@@ -53,7 +64,9 @@ app.get('/api/post', async (req, res) => {
   }
 });
 
+///////////////////////////////
 // Create
+////////////////////////////////
 // User API
 app.post('/api/user', async (req, res) => {
   try {
@@ -74,8 +87,13 @@ app.post('/api/post', async (req, res) => {
   }
 });
 
+///////////////////////////////
+// Update
+////////////////////////////////
 
+///////////////////////////////
 // Delete 
+////////////////////////////////
 // User
 app.delete('/api/user/delete/:id', async (req,res) => {
     try {
