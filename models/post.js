@@ -6,17 +6,11 @@ const Schema = mongoose.Schema;
 const replieSchema = new Schema({
     body: {type: String},
 }, {timestamps: true});
-const postSchema = new Schema ({
-    title: String,
-    createdby: String,
-    replies: [replieSchema]
-
-}, {timestamps: true});
-
-module.exports = mongoose.model('Post', postSchema);
+//CONSTRUCTOR
 const postSchema = new Schema(
   {
     title: String,
+    image: String,
     createdBy: String,
     replies: [replieSchema]
   },
