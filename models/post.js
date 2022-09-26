@@ -11,6 +11,7 @@ const postSchema = new Schema(
   {
     title: String,
     image: String,
+    content: String,
     createdBy: String,
     replies: [replieSchema]
   },
