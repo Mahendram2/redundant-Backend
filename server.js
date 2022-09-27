@@ -6,6 +6,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const Post = require('./models/post');
+const commentsRouter = require('./controllers/comments');
+const repliesRouter = require('./controllers/replies');
+const usersRouter = require('./controllers/users');
+const postsRouter = require('./controllers/posts');
 
 /*  Initalalize Express */
 const app = express();
@@ -29,6 +33,10 @@ mongoose.connection
 ////////////////////////////////
 app.use(express.json());
 app.use(cors());
+app.use(postsRouter);
+app.use(usersRouter);
+app.use(repliesRouter);
+app.use(commentsRouter);
 
 ///////////////////////////////
 // ROUTES
