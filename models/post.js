@@ -17,6 +17,7 @@ const postSchema = new Schema(
     replies: [replieSchema],
     userIdPost: String,
     counter: Number,
+    category: String,
     // postedBy: {type: Schema.Types.ObjectId, ref: 'User'},
   },
   { timestamps: true }
