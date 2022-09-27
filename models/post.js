@@ -3,10 +3,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //REPLY
-const replieSchema = new Schema({
-    body: {type: String},
+const replieSchema = new Schema(
+  {
+    body: { type: String },
     userId: String,
-}, {timestamps: true});
+  },
+  { timestamps: true }
+);
 //CONSTRUCTOR
 const postSchema = new Schema(
   {
@@ -16,7 +19,7 @@ const postSchema = new Schema(
     createdBy: String,
     replies: [replieSchema],
     userIdPost: String,
-    counter: Number,
+    counter: { type: Number, default: 1 },
     category: String,
     // postedBy: {type: Schema.Types.ObjectId, ref: 'User'},
   },
