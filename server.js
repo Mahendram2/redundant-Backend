@@ -6,10 +6,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const Post = require('./models/post');
-const commentsRouter = require('./controllers/comments');
 const repliesRouter = require('./controllers/replies');
 const usersRouter = require('./controllers/users');
 const postsRouter = require('./controllers/posts');
+const Board = require('./models/board');
 
 /*  Initalalize Express */
 const app = express();
@@ -36,7 +36,10 @@ app.use(cors());
 app.use(postsRouter);
 app.use(usersRouter);
 app.use(repliesRouter);
+<<<<<<< HEAD
 // app.use(commentsRouter);
+=======
+>>>>>>> master
 
 ///////////////////////////////
 // ROUTES
@@ -98,46 +101,53 @@ app.post('/api/post', async (req, res) => {
 ///////////////////////////////
 // Update
 ////////////////////////////////
-app.delete('/api/user/delete/:id', async (req,res) => {
+// User
+app.put('/api/post/:id', async (req, res) => {
   try {
-      res.status(200).json(await User.findByIdAndDelete(
-          req.params.id
-      ))
+    res.status(200).json(
+      await post.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      })
+    );
   } catch (error) {
-      console.log(error);
-      res.status(400).json({'error': 'bad request'}); 
+    console.log(error);
+    res.status(400).json({
+      error: 'bad request',
+    });
   }
 });
 
+app.put('/api/post/:id/comment', async (req, res) => {
+  try {
+    res.status(200).json(
+      await Post.findByIdAndUpdate(
+        req.params.id,
+        { $push: { replies: req.body } },
+        {
+          new: true,
+        }
+      )
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      error: 'bad request',
+    });
+  }
+});
 
 ///////////////////////////////
-// Delete 
+// Delete
 ////////////////////////////////
-// User
-app.delete('/api/user/delete/:id', async (req,res) => {
-    try {
-        res.status(200).json(await User.findByIdAndDelete(
-            req.params.id
-        ))
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({'error': 'bad request'}); 
-    }
-});
-
-// Delete 
 // Post
-app.delete('/api/post/delete/:id', async (req,res) => {
-    try {
-        res.status(200).json(await Post.findByIdAndDelete(
-            req.params.id
-        ))
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({'error': 'bad request'}); 
-    }
+app.delete('/api/post/delete/:id', async (req, res) => {
+  try {
+    res.status(200).json(await Post.findByIdAndDelete(req.params.id));
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: 'bad request' });
+  }
 });
-
 
 /* Listner */
 app.listen(PORT, () => {
