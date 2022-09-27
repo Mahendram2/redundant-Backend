@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema(
   {
     username: { type: String, required: true },
-
+    password: { type: String, required: true },
     image: {
       type: String,
       default:
@@ -13,16 +13,9 @@ const userSchema = new Schema(
     },
 
     bio: String,
+    posts: {type: Schema.Types.ObjectId, ref: 'Post'},
   },
   { timestamps: true }
 );
-/*
-timestamps enabled to true?
-
-This creates two fields on each new document
-
-- createdAt
-- updatedAt
-*/
 
 module.exports = mongoose.model('User', userSchema);

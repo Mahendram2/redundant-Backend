@@ -5,14 +5,20 @@ const Schema = mongoose.Schema;
 //REPLY
 const replieSchema = new Schema({
     body: {type: String},
+    userId: String,
 }, {timestamps: true});
 //CONSTRUCTOR
 const postSchema = new Schema(
   {
     title: String,
     image: String,
+    content: String,
     createdBy: String,
-    replies: [replieSchema]
+    replies: [replieSchema],
+    userIdPost: String,
+    counter: Number,
+    category: String,
+    // postedBy: {type: Schema.Types.ObjectId, ref: 'User'},
   },
   { timestamps: true }
 );

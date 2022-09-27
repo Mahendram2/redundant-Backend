@@ -6,6 +6,11 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const Post = require('./models/post');
+const repliesRouter = require('./controllers/replies');
+const usersRouter = require('./controllers/users');
+const postsRouter = require('./controllers/posts');
+const Board = require('./models/board');
+
 
 /*  Initalalize Express */
 const app = express();
@@ -29,6 +34,9 @@ mongoose.connection
 ////////////////////////////////
 app.use(express.json());
 app.use(cors());
+app.use(postsRouter);
+app.use(usersRouter);
+app.use(repliesRouter);
 
 ///////////////////////////////
 // ROUTES
@@ -77,6 +85,7 @@ app.post('/api/user', async (req, res) => {
   }
 });
 
+
 // Post API
 app.post('/api/post', async (req, res) => {
   try {
@@ -90,23 +99,27 @@ app.post('/api/post', async (req, res) => {
 ///////////////////////////////
 // Update
 ////////////////////////////////
+// User
+app.put('/api/post/:id', async (req, res) => {
+  try {
+      res.status(200).json(await post.findByIdAndUpdate(
+          req.params.id,
+          req.body, {
+              new: true
+          }
+      ));
+  } catch (error) {
+      console.log(error);
+      res.status(400).json({
+          'error': 'bad request'
+      });
+  }
+});
+
 
 ///////////////////////////////
 // Delete 
 ////////////////////////////////
-// User
-app.delete('/api/user/delete/:id', async (req,res) => {
-    try {
-        res.status(200).json(await User.findByIdAndDelete(
-            req.params.id
-        ))
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({'error': 'bad request'}); 
-    }
-});
-
-// Delete 
 // Post
 app.delete('/api/post/delete/:id', async (req,res) => {
     try {
