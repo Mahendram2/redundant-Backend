@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 //REPLY
 const replieSchema = new Schema({
     body: {type: String},
+    userId: String,
 }, {timestamps: true});
 //CONSTRUCTOR
 const postSchema = new Schema(
@@ -14,7 +15,7 @@ const postSchema = new Schema(
     content: String,
     createdBy: String,
     replies: [replieSchema],
-    userId: String,
+    userIdPost: String,
     // postedBy: {type: Schema.Types.ObjectId, ref: 'User'},
   },
   { timestamps: true }
