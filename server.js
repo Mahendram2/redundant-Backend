@@ -36,7 +36,7 @@ app.use(cors());
 app.use(postsRouter);
 app.use(usersRouter);
 app.use(repliesRouter);
-app.use(commentsRouter);
+// app.use(commentsRouter);
 
 ///////////////////////////////
 // ROUTES
