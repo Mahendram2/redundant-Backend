@@ -6,6 +6,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const Post = require('./models/post');
+const Board = require('./models/board');
+
 
 /*  Initalalize Express */
 const app = express();
@@ -76,6 +78,7 @@ app.post('/api/user', async (req, res) => {
     res.status(400).json({ error: 'bad request' });
   }
 });
+
 
 // Post API
 app.post('/api/post', async (req, res) => {
