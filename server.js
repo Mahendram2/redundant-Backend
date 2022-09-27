@@ -99,21 +99,6 @@ app.post('/api/post', async (req, res) => {
 ///////////////////////////////
 // Update
 ////////////////////////////////
-app.delete('/api/user/:id', async (req,res) => {
-  try {
-      res.status(200).json(await User.findByIdAndDelete(
-          req.params.id
-      ))
-  } catch (error) {
-      console.log(error);
-      res.status(400).json({'error': 'bad request'}); 
-  }
-});
-
-
-///////////////////////////////
-// Delete 
-////////////////////////////////
 // User
 app.put('/api/post/:id', async (req, res) => {
   try {
@@ -131,7 +116,10 @@ app.put('/api/post/:id', async (req, res) => {
   }
 });
 
+
+///////////////////////////////
 // Delete 
+////////////////////////////////
 // Post
 app.delete('/api/post/delete/:id', async (req,res) => {
     try {
