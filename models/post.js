@@ -13,7 +13,9 @@ const postSchema = new Schema(
     image: String,
     content: String,
     createdBy: String,
-    replies: [replieSchema]
+    replies: [replieSchema],
+    userId: String,
+    // postedBy: {type: Schema.Types.ObjectId, ref: 'User'},
   },
   { timestamps: true }
 );
