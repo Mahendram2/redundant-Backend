@@ -6,6 +6,9 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const Post = require('./models/post');
+const repliesRouter = require('./controllers/replies');
+const usersRouter = require('./controllers/users');
+const postsRouter = require('./controllers/posts');
 const Board = require('./models/board');
 
 
@@ -31,6 +34,9 @@ mongoose.connection
 ////////////////////////////////
 app.use(express.json());
 app.use(cors());
+app.use(postsRouter);
+app.use(usersRouter);
+app.use(repliesRouter);
 
 ///////////////////////////////
 // ROUTES
