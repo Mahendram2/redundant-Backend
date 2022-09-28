@@ -36,10 +36,7 @@ app.use(cors());
 app.use(postsRouter);
 app.use(usersRouter);
 app.use(repliesRouter);
-<<<<<<< HEAD
 // app.use(commentsRouter);
-=======
->>>>>>> master
 
 ///////////////////////////////
 // ROUTES
