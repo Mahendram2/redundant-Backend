@@ -1,13 +1,19 @@
-/* Dependencies */
+/* MODEL Dependencies */
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const Post = require('./models/post');
-const commentsRouter = require('./controllers/comments');
+      //
+//CONTROLLERS//
+      //
 const repliesRouter = require('./controllers/replies');
 const usersRouter = require('./controllers/users');
 const postsRouter = require('./controllers/posts');
+    //
+//FIREBASE//
+    //
+const admin = require('firebase-admin');
 
 /*  Initalalize Express */
 const app = express();
@@ -15,6 +21,10 @@ const app = express();
 /* dotenv Config */
 require('dotenv').config();
 const { PORT = 4000, DATABASE_URL } = process.env;
+    //
+//FIREBASE
+    //
+const serviceAccount = require('./service-account.json');
 
 /* MongoDB Connection */
 mongoose.connect(DATABASE_URL);
@@ -30,7 +40,6 @@ app.use(cors());
 app.use(postsRouter);
 app.use(usersRouter);
 app.use(repliesRouter);
-app.use(commentsRouter);
 
 /* Routes */
 app.get('/', (req, res) => {
