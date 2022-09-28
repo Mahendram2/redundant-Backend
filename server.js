@@ -11,7 +11,6 @@ const usersRouter = require('./controllers/users');
 const postsRouter = require('./controllers/posts');
 const Board = require('./models/board');
 
-
 /*  Initalalize Express */
 const app = express();
 
@@ -85,7 +84,6 @@ app.post('/api/user', async (req, res) => {
   }
 });
 
-
 // Post API
 app.post('/api/post', async (req, res) => {
   try {
@@ -102,36 +100,50 @@ app.post('/api/post', async (req, res) => {
 // User
 app.put('/api/post/:id', async (req, res) => {
   try {
-      res.status(200).json(await post.findByIdAndUpdate(
-          req.params.id,
-          req.body, {
-              new: true
-          }
-      ));
+    res.status(200).json(
+      await post.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      })
+    );
   } catch (error) {
-      console.log(error);
-      res.status(400).json({
-          'error': 'bad request'
-      });
+    console.log(error);
+    res.status(400).json({
+      error: 'bad request',
+    });
   }
 });
 
-
-///////////////////////////////
-// Delete 
-////////////////////////////////
-// Post
-app.delete('/api/post/delete/:id', async (req,res) => {
-    try {
-        res.status(200).json(await Post.findByIdAndDelete(
-            req.params.id
-        ))
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({'error': 'bad request'}); 
-    }
+app.put('/api/post/:id/comment', async (req, res) => {
+  try {
+    res.status(200).json(
+      await Post.findByIdAndUpdate(
+        req.params.id,
+        { $push: { replies: req.body } },
+        {
+          new: true,
+        }
+      )
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      error: 'bad request',
+    });
+  }
 });
 
+///////////////////////////////
+// Delete
+////////////////////////////////
+// Post
+app.delete('/api/post/delete/:id', async (req, res) => {
+  try {
+    res.status(200).json(await Post.findByIdAndDelete(req.params.id));
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: 'bad request' });
+  }
+});
 
 /* Listner */
 app.listen(PORT, () => {
