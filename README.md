@@ -24,4 +24,6 @@
 
 [Click here](https://github.com/Mahendram2/Project-3-Backend) to see the deployed app!
 
+[Click here](https://github.com/millerado/reddit-clone-frontend) to front-end repo app!
+
 ## Future Enhancements
