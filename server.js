@@ -1,17 +1,17 @@
 /* MODEL Dependencies */
 const express = require('express');
+const logger = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const Post = require('./models/post');
-      //
 //CONTROLLERS//
 const repliesRouter = require('./controllers/replies');
 const usersRouter = require('./controllers/users');
 const postsRouter = require('./controllers/posts');
-    //
 //FIREBASE//
 const admin = require('firebase-admin');
+const { getAuth } = require('firebase-admin/auth');
 
 /*  Initalalize Express */
 const app = express();
@@ -42,6 +42,7 @@ app.use(cors());
 app.use(postsRouter);
 app.use(usersRouter);
 app.use(repliesRouter);
+// app.use(commentsRouter);
 
 //CUSTOM AUTHENTIC MIDDLEWARE
 app.use(async function(req, res, next) {
