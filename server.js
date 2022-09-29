@@ -1,4 +1,9 @@
+
 /* MODEL Dependencies */
+
+///////////////////////////////
+// Dependencies
+////////////////////////////////
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -14,6 +19,10 @@ const postsRouter = require('./controllers/posts');
 //FIREBASE//
     //
 const admin = require('firebase-admin');
+const repliesRouter = require('./controllers/replies');
+const usersRouter = require('./controllers/users');
+const postsRouter = require('./controllers/posts');
+const Board = require('./models/board');
 
 /*  Initalalize Express */
 const app = express();
@@ -26,7 +35,9 @@ const { PORT = 4000, DATABASE_URL } = process.env;
     //
 const serviceAccount = require('./service-account.json');
 
+///////////////////////////////
 /* MongoDB Connection */
+////////////////////////////////
 mongoose.connect(DATABASE_URL);
 
 mongoose.connection
@@ -34,18 +45,26 @@ mongoose.connection
   .on('disconnected', () => console.log('Disonnected to MongoDB'))
   .on('error', () => console.log('Problem with MongoDB:' + error.message));
 
-// /* Mount Middleware */
+///////////////////////////////
+// Mount Middleware
+////////////////////////////////
 app.use(express.json());
+app.use(logger('dev')); //Interception
 app.use(cors());
 app.use(postsRouter);
 app.use(usersRouter);
 app.use(repliesRouter);
 
-/* Routes */
+///////////////////////////////
+// ROUTES
+////////////////////////////////
 app.get('/', (req, res) => {
   res.send('Welcome');
 });
 
+///////////////////////////////
+// Index
+////////////////////////////////
 // Index User
 app.get('/api/user', async (req, res) => {
   try {
@@ -70,7 +89,9 @@ app.get('/api/post', async (req, res) => {
   }
 });
 
+///////////////////////////////
 // Create
+////////////////////////////////
 // User API
 app.post('/api/user', async (req, res) => {
   try {
@@ -91,33 +112,56 @@ app.post('/api/post', async (req, res) => {
   }
 });
 
-
-// Delete 
+///////////////////////////////
+// Update
+////////////////////////////////
 // User
-app.delete('/api/user/delete/:id', async (req,res) => {
-    try {
-        res.status(200).json(await User.findByIdAndDelete(
-            req.params.id
-        ))
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({'error': 'bad request'}); 
-    }
+app.put('/api/post/:id', async (req, res) => {
+  try {
+    res.status(200).json(
+      await post.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      })
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      error: 'bad request',
+    });
+  }
 });
 
-// Delete 
+app.put('/api/post/:id/comment', async (req, res) => {
+  try {
+    res.status(200).json(
+      await Post.findByIdAndUpdate(
+        req.params.id,
+        { $push: { replies: req.body } },
+        {
+          new: true,
+        }
+      )
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      error: 'bad request',
+    });
+  }
+});
+
+///////////////////////////////
+// Delete
+////////////////////////////////
 // Post
-app.delete('/api/post/delete/:id', async (req,res) => {
-    try {
-        res.status(200).json(await Post.findByIdAndDelete(
-            req.params.id
-        ))
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({'error': 'bad request'}); 
-    }
+app.delete('/api/post/delete/:id', async (req, res) => {
+  try {
+    res.status(200).json(await Post.findByIdAndDelete(req.params.id));
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: 'bad request' });
+  }
 });
-
 
 /* Listner */
 app.listen(PORT, () => {
