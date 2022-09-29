@@ -1,9 +1,4 @@
-
 /* MODEL Dependencies */
-
-///////////////////////////////
-// Dependencies
-////////////////////////////////
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -11,18 +6,12 @@ const User = require('./models/user');
 const Post = require('./models/post');
       //
 //CONTROLLERS//
-      //
 const repliesRouter = require('./controllers/replies');
 const usersRouter = require('./controllers/users');
 const postsRouter = require('./controllers/posts');
     //
 //FIREBASE//
-    //
 const admin = require('firebase-admin');
-const repliesRouter = require('./controllers/replies');
-const usersRouter = require('./controllers/users');
-const postsRouter = require('./controllers/posts');
-const Board = require('./models/board');
 
 /*  Initalalize Express */
 const app = express();
@@ -30,14 +19,15 @@ const app = express();
 /* dotenv Config */
 require('dotenv').config();
 const { PORT = 4000, DATABASE_URL } = process.env;
-    //
-//FIREBASE
-    //
-const serviceAccount = require('./service-account.json');
 
-///////////////////////////////
+//CONFIG FIREBASE
+const serviceAccount = require("./service-account.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
 /* MongoDB Connection */
-////////////////////////////////
 mongoose.connect(DATABASE_URL);
 
 mongoose.connection
@@ -45,9 +35,7 @@ mongoose.connection
   .on('disconnected', () => console.log('Disonnected to MongoDB'))
   .on('error', () => console.log('Problem with MongoDB:' + error.message));
 
-///////////////////////////////
 // Mount Middleware
-////////////////////////////////
 app.use(express.json());
 app.use(logger('dev')); //Interception
 app.use(cors());
@@ -55,16 +43,36 @@ app.use(postsRouter);
 app.use(usersRouter);
 app.use(repliesRouter);
 
-///////////////////////////////
+//CUSTOM AUTHENTIC MIDDLEWARE
+app.use(async function(req, res, next) {
+  //Capture token from request
+  const token = req.get('Authorization');
+  //Check to see if we have token
+  try {
+      if(token) {
+          const user = await getAuth().verifyIdToken(token.replace('Bearer ', ''));        //check for token 
+          req.user = user;
+      } else {
+          req.user = null;
+      }
+          } catch (error) {
+          return res.status(400).json({error: 'bad request'})
+      }
+  next();
+});
+//CUSTOM AUTH MIDDLEWARE
+function isAuthenticated(req, res, next) {
+  if(!req.user) {
+       return res.status(401).json({error: 'You Must Login First'})
+} else {
+  next();
+  }
+}
 // ROUTES
-////////////////////////////////
 app.get('/', (req, res) => {
   res.send('Welcome');
 });
 
-///////////////////////////////
-// Index
-////////////////////////////////
 // Index User
 app.get('/api/user', async (req, res) => {
   try {
@@ -89,9 +97,8 @@ app.get('/api/post', async (req, res) => {
   }
 });
 
-///////////////////////////////
+
 // Create
-////////////////////////////////
 // User API
 app.post('/api/user', async (req, res) => {
   try {
@@ -112,9 +119,7 @@ app.post('/api/post', async (req, res) => {
   }
 });
 
-///////////////////////////////
 // Update
-////////////////////////////////
 // User
 app.put('/api/post/:id', async (req, res) => {
   try {
@@ -150,9 +155,7 @@ app.put('/api/post/:id/comment', async (req, res) => {
   }
 });
 
-///////////////////////////////
 // Delete
-////////////////////////////////
 // Post
 app.delete('/api/post/delete/:id', async (req, res) => {
   try {
