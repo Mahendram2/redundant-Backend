@@ -125,7 +125,7 @@ app.post('/api/post', async (req, res) => {
 app.put('/api/post/:id', async (req, res) => {
   try {
     res.status(200).json(
-      await post.findByIdAndUpdate(req.params.id, req.body, {
+      await Post.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
       })
     );
