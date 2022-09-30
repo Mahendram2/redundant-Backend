@@ -25,7 +25,7 @@ admin.initializeApp({
     type: 'service_account',
     project_id: 'redundant-447d0',
     private_key_id: PRIVATE_KEY_ID,
-    private_key: PRIVATE_KEY.replace('\n', ''),
+    private_key: PRIVATE_KEY.replace(/\\n/g, '\n'),
     client_email:
       'firebase-adminsdk-nv0xs@redundant-447d0.iam.gserviceaccount.com',
     client_id: '111709835900757846298',
