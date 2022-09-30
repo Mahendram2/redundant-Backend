@@ -10,13 +10,32 @@ const repliesRouter = require('./controllers/replies');
 const usersRouter = require('./controllers/users');
 const postsRouter = require('./controllers/posts');
 const Board = require('./models/board');
+const admin = require('firebase-admin');
+const { getAuth } = require('firebase-admin/auth');
 
 /*  Initalalize Express */
 const app = express();
 
 /* dotenv Config */
 require('dotenv').config();
-const { PORT = 4000, DATABASE_URL } = process.env;
+const { PORT = 4000, DATABASE_URL, PRIVATE_KEY_ID, PRIVATE_KEY } = process.env;
+
+admin.initializeApp({
+  credential: admin.credential.cert({
+    type: 'service_account',
+    project_id: 'redundant-447d0',
+    private_key_id: PRIVATE_KEY_ID,
+    private_key: PRIVATE_KEY.replace('\n', ''),
+    client_email:
+      'firebase-adminsdk-nv0xs@redundant-447d0.iam.gserviceaccount.com',
+    client_id: '111709835900757846298',
+    auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+    token_uri: 'https://oauth2.googleapis.com/token',
+    auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+    client_x509_cert_url:
+      'https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-nv0xs%40redundant-447d0.iam.gserviceaccount.com',
+  }),
+});
 
 ///////////////////////////////
 /* MongoDB Connection */
@@ -36,7 +55,26 @@ app.use(cors());
 app.use(postsRouter);
 app.use(usersRouter);
 app.use(repliesRouter);
-// app.use(commentsRouter);
+
+// Custom Authorization Middleware
+app.use(async function (req, res, next) {
+  // Capture token from request
+  const token = req.get('Authorization');
+  // Token exists?
+  // validate it using google firebase
+  try {
+    if (token) {
+      const user = await getAuth().verifyIdToken(token.replace('Bearer ', ''));
+      req.user = user;
+    } else {
+      req.user = null;
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ error: 'bad request' });
+  }
+  next();
+});
 
 ///////////////////////////////
 // ROUTES
